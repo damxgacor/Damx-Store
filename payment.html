@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembayaran — DAMX STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD700;
+    --yellow-bright: #FFE44D;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --white: #F5F5F5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid #FFD70033;
+    padding: 16px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+
+  .nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--yellow);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+  .page-header {
+    padding: 120px 30px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, #FFD70011, transparent 70%);
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .page-header-content { position: relative; z-index: 1; }
+
+  .page-badge {
+    display: inline-block;
+    background: #FFD70015;
+    border: 1px solid #FFD70044;
+    color: var(--yellow);
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 6px 20px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .page-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(32px, 8vw, 56px);
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 4px;
+    text-shadow: 0 0 40px #FFD70066;
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: #666;
+    letter-spacing: 2px;
+  }
+
+  /* NOTICE BOX */
+  .notice {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    padding: 0 30px;
+  }
+
+  .notice-box {
+    background: #111;
+    border: 1px solid #FFD70033;
+    border-left: 4px solid var(--yellow);
+    padding: 20px 24px;
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.7;
+  }
+
+  .notice-box strong { color: var(--yellow); }
+
+  /* PAYMENT GRID */
+  .payment-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 30px 80px;
+  }
+
+  .section-label {
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 4px;
+  }
+
+  .section-label span { color: var(--yellow); }
+
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .pay-card {
+    background: var(--dark);
+    border: 1px solid #222;
+    border-top: 3px solid var(--yellow);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .pay-card:nth-child(2) { animation-delay: 0.15s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pay-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 50px #FFD70022;
+    border-color: #FFD70044;
+  }
+
+  .pay-card-header {
+    padding: 20px 24px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid #222;
+  }
+
+  .pay-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .pay-card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: 1px;
+  }
+
+  .pay-card-subtitle {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+
+  .pay-card-img-wrap {
+    padding: 24px;
+    text-align: center;
+    background: #0d0d0d;
+  }
+
+  .pay-card-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border: 2px solid #2a2a2a;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .pay-card-body {
+    padding: 20px 24px;
+  }
+
+  .pay-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 13px;
+    gap: 10px;
+  }
+
+  .pay-info-row:last-child { border-bottom: none; }
+
+  .pay-info-label {
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .pay-info-value {
+    color: var(--white);
+    font-weight: 600;
+    text-align: right;
+    word-break: break-all;
+  }
+
+  .pay-info-value.yellow { color: var(--yellow); }
+
+  /* STEPS */
+  .steps-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 30px;
+  }
+
+  .steps-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .step {
+    background: #111;
+    border: 1px solid #222;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #FFD70022;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .step-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    margin-bottom: 6px;
+  }
+
+  .step-text { font-size: 12px; color: #888; line-height: 1.6; }
+
+  /* CONTACT CTA */
+  .cta-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 30px;
+  }
+
+  .cta-box {
+    background: #111;
+    border: 1px solid #FFD70033;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '⚡';
+    position: absolute;
+    right: -20px; bottom: -20px;
+    font-size: 150px;
+    opacity: 0.03;
+  }
+
+  .cta-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+
+  .cta-text { font-size: 14px; color: #888; margin-bottom: 24px; line-height: 1.7; }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--yellow);
+    color: var(--black);
+    padding: 13px 34px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 30px #FFD70044;
+  }
+
+  .cta-btn:hover {
+    background: var(--yellow-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 50px #FFD70066;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid #1a1a1a;
+    color: #444;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  footer span { color: var(--yellow); }
+
+  @media (max-width: 600px) {
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 11px; }
+    .pay-card-img { width: 160px; height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">DAMX <span>STORE</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="produk.html">Produk</a></li>
+    <li><a href="payment.html" class="active">Payment</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-content">
+    <div class="page-badge">💳 KAEDAH PEMBAYARAN 💳</div>
+    <h1 class="page-title">PEMBAYARAN</h1>
+    <p class="page-sub">Selamat dan mudah — pilih kaedah pembayaran anda</p>
+  </div>
+</div>
+
+<div class="notice">
+  <div class="notice-box">
+    ⚠️ <strong>PERHATIAN:</strong> Setelah membuat bayaran, sila hubungi kami melalui WhatsApp dengan 
+    <strong>bukti pembayaran</strong> dan <strong>nama penuh</strong> anda. 
+    Pesanan akan diproses dalam masa <strong>1–24 jam</strong> bekerja. 
+    Terima kasih kerana memilih DAMX Store! ⚡
+  </div>
+</div>
+
+<div class="payment-section">
+  <p class="section-label">— <span>PILIH KAEDAH BAYARAN</span> —</p>
+  <div class="payment-grid">
+
+    <!-- TNG -->
+    <div class="pay-card">
+      <div class="pay-card-header">
+        <div class="pay-icon">🟦</div>
+        <div>
+          <div class="pay-card-title">TOUCH 'N GO</div>
+          <div class="pay-card-subtitle">TNG eWALLET</div>
+        </div>
+      </div>
+      <div class="pay-card-img-wrap">
+        <img src="https://files.catbox.moe/gmkws5.jpg" alt="TNG QR" class="pay-card-img">
+      </div>
+      <div class="pay-card-body">
+        <div class="pay-info-row">
+          <span class="pay-info-label">Platform</span>
+          <span class="pay-info-value yellow">Touch 'N Go eWallet</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Nama Penuh</span>
+          <span class="pay-info-value">DAMX STORE</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Catatan</span>
+          <span class="pay-info-value">Imbas QR di atas untuk membuat pembayaran terus</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Status</span>
+          <span class="pay-info-value yellow">✅ AKTIF</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- QRIS -->
+    <div class="pay-card">
+      <div class="pay-card-header">
+        <div class="pay-icon">🟥</div>
+        <div>
+          <div class="pay-card-title">QRIS</div>
+          <div class="pay-card-subtitle">QUICK RESPONSE CODE</div>
+        </div>
+      </div>
+      <div class="pay-card-img-wrap">
+        <img src="https://files.catbox.moe/3c1gar.jpg" alt="QRIS QR" class="pay-card-img">
+      </div>
+      <div class="pay-card-body">
+        <div class="pay-info-row">
+          <span class="pay-info-label">Platform</span>
+          <span class="pay-info-value yellow">QRIS Universal</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Nama Penuh</span>
+          <span class="pay-info-value">DAMX STORE</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Catatan</span>
+          <span class="pay-info-value">Sokong pelbagai platform eWallet</span>
+        </div>
+        <div class="pay-info-row">
+          <span class="pay-info-label">Status</span>
+          <span class="pay-info-value yellow">✅ AKTIF</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-section">
+  <div class="steps-title">⚡ CARA MEMBAYAR</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">PILIH PRODUK</div>
+      <p class="step-text">Pilih produk yang anda inginkan dari halaman Produk</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">BUAT BAYARAN</div>
+      <p class="step-text">Imbas QR kod TNG atau QRIS untuk membuat bayaran</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">HANTAR BUKTI</div>
+      <p class="step-text">Screenshot bukti bayaran dan hantar ke WhatsApp kami</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">TERIMA PRODUK</div>
+      <p class="step-text">Produk akan dihantar dalam masa 1–24 jam selepas pengesahan</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-box">
+    <div class="cta-title">SUDAH MEMBAYAR?</div>
+    <p class="cta-text">
+      Hubungi kami segera melalui WhatsApp dengan bukti pembayaran dan nama penuh anda.<br>
+      Admin kami sedia membantu 24/7!
+    </p>
+    <a href="https://wa.me/601130538675?text=Assalamualaikum%20Admin%20DAMX%20Store%2C%20saya%20sudah%20membuat%20pembayaran." class="cta-btn" target="_blank">
+      📱 HUBUNGI VIA WHATSAPP
+    </a>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 <span>DAMX STORE</span> — All Rights Reserved ⚡
+</footer>
+
+</body>
+</html>
