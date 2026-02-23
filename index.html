@@ -1,1 +1,532 @@
-# Damx-Store
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAMX STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD700;
+    --yellow-bright: #FFE44D;
+    --yellow-dark: #F0C000;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --white: #F5F5F5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ===== LOADER ===== */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  #loader.hide {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .loader-pika {
+    font-size: 80px;
+    animation: pikaBounce 0.6s ease infinite alternate;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px #FFD700aa);
+  }
+
+  @keyframes pikaBounce {
+    from { transform: translateY(0) rotate(-5deg); }
+    to { transform: translateY(-15px) rotate(5deg); }
+  }
+
+  .loader-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 8vw, 56px);
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 6px;
+    text-shadow: 0 0 40px #FFD700, 0 0 80px #FFD70066;
+    animation: glowPulse 1.5s ease infinite alternate;
+  }
+
+  @keyframes glowPulse {
+    from { text-shadow: 0 0 20px #FFD700, 0 0 40px #FFD70066; }
+    to { text-shadow: 0 0 50px #FFD700, 0 0 100px #FFD700aa, 0 0 150px #FFD70044; }
+  }
+
+  .loader-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    letter-spacing: 8px;
+    color: #888;
+    margin-top: 10px;
+    animation: fadeInSub 1s ease 0.5s both;
+  }
+
+  @keyframes fadeInSub {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .loader-bar-wrap {
+    width: 280px;
+    height: 3px;
+    background: #222;
+    margin-top: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .loader-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--yellow), var(--yellow-bright));
+    border-radius: 10px;
+    animation: loadBar 2.5s ease forwards;
+    box-shadow: 0 0 15px var(--yellow);
+  }
+
+  @keyframes loadBar {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .loader-dots {
+    display: flex; gap: 8px; margin-top: 20px;
+  }
+  .loader-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--yellow);
+    animation: dotBlink 1s ease infinite;
+  }
+  .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  #main {
+    min-height: 100vh;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+  }
+
+  #main.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid #FFD70033;
+    padding: 16px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+
+  .nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--yellow);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 60px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 40%, #FFD70011 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, #FFD70008 0%, transparent 60%),
+      #0A0A0A;
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+  .hero-badge {
+    display: inline-block;
+    background: #FFD70015;
+    border: 1px solid #FFD70044;
+    color: var(--yellow);
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 6px 20px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+  }
+
+  .hero-img-wrap {
+    width: 220px; height: 220px;
+    margin: 0 auto 30px;
+    position: relative;
+  }
+
+  .hero-img-ring {
+    position: absolute; inset: -12px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, var(--yellow), transparent, var(--yellow)) border-box;
+    animation: rotatRing 4s linear infinite;
+  }
+
+  @keyframes rotatRing {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .hero-img {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--yellow);
+    box-shadow: 0 0 60px #FFD70044, 0 0 120px #FFD70022;
+  }
+
+  .hero-pika-badge {
+    position: absolute;
+    bottom: 5px; right: 5px;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 22px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    box-shadow: 0 4px 20px #FFD70088;
+    animation: pikaSpin 3s ease infinite;
+  }
+
+  @keyframes pikaSpin {
+    0%, 100% { transform: rotate(-10deg) scale(1); }
+    50% { transform: rotate(10deg) scale(1.1); }
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(36px, 10vw, 72px);
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 8px;
+    text-shadow: 0 0 40px #FFD70066;
+  }
+
+  .hero-title span { color: var(--white); }
+
+  .hero-tagline {
+    font-size: clamp(13px, 2.5vw, 16px);
+    color: #888;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: #bbb;
+    line-height: 1.8;
+    max-width: 580px;
+    margin: 0 auto 50px;
+    font-weight: 400;
+  }
+
+  .hero-desc strong { color: var(--yellow); }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--yellow);
+    color: var(--black);
+    padding: 14px 36px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 30px #FFD70044;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.4s;
+  }
+
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 50px #FFD70066; }
+  .btn-primary:hover::before { left: 100%; }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--yellow);
+    padding: 14px 36px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--yellow);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  .btn-outline:hover {
+    background: #FFD70011;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px #FFD70033;
+  }
+
+  /* ===== FEATURES STRIP ===== */
+  .features {
+    padding: 60px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .feat-card {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-top: 2px solid var(--yellow);
+    padding: 30px 24px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .feat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px #FFD70022;
+    border-color: #FFD70044;
+  }
+
+  .feat-icon { font-size: 36px; margin-bottom: 14px; }
+
+  .feat-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .feat-text { font-size: 13px; color: #888; line-height: 1.6; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid #1a1a1a;
+    color: #444;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  footer span { color: var(--yellow); }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 600px) {
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 11px; letter-spacing: 1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-pika">⚡</div>
+  <div class="loader-title">DAMX STORE</div>
+  <div class="loader-sub">WELCOME</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar"></div>
+  </div>
+  <div class="loader-dots">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <nav>
+    <a href="index.html" class="nav-logo">DAMX <span>STORE</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="produk.html">Produk</a></li>
+      <li><a href="payment.html">Payment</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ OFFICIAL STORE ⚡</div>
+
+      <div class="hero-img-wrap">
+        <div class="hero-img-ring"></div>
+        <img src="https://files.catbox.moe/rgf0fr.jpg" alt="DAMX Store" class="hero-img">
+        <div class="hero-pika-badge">⚡</div>
+      </div>
+
+      <h1 class="hero-title">DAMX <span>STORE</span></h1>
+      <p class="hero-tagline">Power Your Bot — Dominate The Game</p>
+
+      <p class="hero-desc">
+        Kedai rasmi untuk semua keperluan bot anda. Kami menyediakan 
+        <strong>perkhidmatan bot premium</strong> yang pantas, boleh dipercayai, dan berbaloi. 
+        Dengan sokongan 24/7, kami memastikan pengalaman terbaik untuk setiap pelanggan DAMX.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="produk.html" class="btn-primary">⚡ Lihat Produk</a>
+        <a href="payment.html" class="btn-outline">💳 Pembayaran</a>
+        <a href="contact.html" class="btn-outline">📞 Hubungi Kami</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">PANTAS</div>
+      <p class="feat-text">Proses yang cepat dan responsif tanpa gangguan</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🛡️</div>
+      <div class="feat-title">SELAMAT</div>
+      <p class="feat-text">Transaksi selamat dan maklumat terjamin</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title">BOT PREMIUM</div>
+      <p class="feat-text">Bot berkualiti tinggi dengan ciri-ciri eksklusif</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💬</div>
+      <div class="feat-title">SUPPORT 24/7</div>
+      <p class="feat-text">Khidmat pelanggan sedia membantu bila-bila masa</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 <span>DAMX STORE</span> — All Rights Reserved ⚡
+  </footer>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hide');
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('main').classList.add('show');
+      }, 800);
+    }, 2800);
+  });
+</script>
+</body>
+</html>
+
