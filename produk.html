@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk — DAMX STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD700;
+    --yellow-bright: #FFE44D;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --white: #F5F5F5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid #FFD70033;
+    padding: 16px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 3px;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+
+  .nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--yellow);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+  .page-header {
+    padding: 120px 30px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, #FFD70011, transparent 70%);
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .page-header-content { position: relative; z-index: 1; }
+
+  .page-badge {
+    display: inline-block;
+    background: #FFD70015;
+    border: 1px solid #FFD70044;
+    color: var(--yellow);
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 6px 20px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .page-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(32px, 8vw, 56px);
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 4px;
+    text-shadow: 0 0 40px #FFD70066;
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: #666;
+    letter-spacing: 2px;
+  }
+
+  /* SECTION */
+  .section-label {
+    text-align: center;
+    margin: 0 auto 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .section-label span {
+    color: var(--yellow);
+  }
+
+  /* PRODUCT BANNER */
+  .product-banner {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 30px;
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-left: 4px solid var(--yellow);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .product-banner::before {
+    content: '⚡';
+    position: absolute;
+    right: -10px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 120px;
+    opacity: 0.03;
+  }
+
+  .product-banner img {
+    width: 140px; height: 140px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .product-banner-info { padding: 30px 0; }
+
+  .product-brand {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--yellow);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .product-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .product-desc {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  /* CARDS GRID */
+  .cards-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px 80px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .prod-card {
+    background: var(--dark);
+    border: 1px solid #222;
+    border-top: 3px solid var(--yellow);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .prod-card:nth-child(2) { animation-delay: 0.1s; }
+  .prod-card:nth-child(3) { animation-delay: 0.2s; }
+  .prod-card:nth-child(4) { animation-delay: 0.3s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .prod-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 50px #FFD70022;
+    border-color: #FFD70044;
+  }
+
+  .prod-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9);
+    transition: filter 0.3s;
+  }
+
+  .prod-card:hover .prod-card-img { filter: brightness(1.05); }
+
+  .prod-card-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 1px;
+  }
+
+  .prod-card-body { padding: 20px; }
+
+  .prod-card-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .prod-card-type {
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .prod-card-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .prod-card-price span {
+    font-size: 13px;
+    color: #666;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+  }
+
+  .prod-card-note {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+    padding-top: 12px;
+    border-top: 1px solid #222;
+    margin-top: 14px;
+  }
+
+  .prod-card-note strong { color: var(--yellow); }
+
+  .prod-card-btn {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    background: var(--yellow);
+    color: var(--black);
+    padding: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .prod-card-btn:hover {
+    background: var(--yellow-bright);
+    box-shadow: 0 4px 20px #FFD70044;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid #1a1a1a;
+    color: #444;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  footer span { color: var(--yellow); }
+
+  @media (max-width: 600px) {
+    .product-banner { flex-direction: column; text-align: center; }
+    .product-banner img { width: 100%; height: 200px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">DAMX <span>STORE</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="produk.html" class="active">Produk</a></li>
+    <li><a href="payment.html">Payment</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-content">
+    <div class="page-badge">⚡ KATALOG PRODUK ⚡</div>
+    <h1 class="page-title">PRODUK KAMI</h1>
+    <p class="page-sub">Pilih produk terbaik untuk pengalaman bot anda</p>
+  </div>
+</div>
+
+<div style="max-width:900px;margin:0 auto 50px;padding:0 30px;">
+  <div class="product-banner">
+    <img src="https://files.catbox.moe/jwhujp.jpg" alt="BOT DAMX BLASTER">
+    <div class="product-banner-info">
+      <div class="product-brand">⚡ DAMX OFFICIAL</div>
+      <div class="product-name">BOT DAMX BLASTER</div>
+      <p class="product-desc">Bot automatik berkuasa tinggi dengan teknologi terkini. Direka untuk prestasi maksimum, kestabilan penuh, dan kemudahan penggunaan setiap hari.</p>
+    </div>
+  </div>
+</div>
+
+<div class="cards-section">
+  <p class="section-label">— <span>PILIH PAKEJ</span> —</p>
+  <div class="cards-grid">
+
+    <!-- LOGO BIASA -->
+    <div class="prod-card">
+      <img src="https://files.catbox.moe/6c1hqe.jpg" alt="Logo Biasa" class="prod-card-img">
+      <div class="prod-card-badge">STANDARD</div>
+      <div class="prod-card-body">
+        <div class="prod-card-name">LOGO BIASA</div>
+        <div class="prod-card-type">Bot DAMX Blaster</div>
+        <div class="prod-card-price">RM 0.20<span> /unit</span></div>
+        <div class="prod-card-note">
+          <strong>📌 Catatan:</strong><br>
+          Pakej asas dengan logo standard DAMX. Sesuai untuk pengguna baru yang ingin mencuba perkhidmatan bot kami.
+        </div>
+        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20Biasa%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
+      </div>
+    </div>
+
+    <!-- LOGO QR -->
+    <div class="prod-card">
+      <img src="https://files.catbox.moe/6c1hqe.jpg" alt="Logo QR" class="prod-card-img">
+      <div class="prod-card-badge">QR EDITION</div>
+      <div class="prod-card-body">
+        <div class="prod-card-name">LOGO QR</div>
+        <div class="prod-card-type">Bot DAMX Blaster</div>
+        <div class="prod-card-price">RM 0.50<span> /unit</span></div>
+        <div class="prod-card-note">
+          <strong>📌 Catatan:</strong><br>
+          Logo dengan kod QR eksklusif terintegrasi. Mudah untuk dikongsi dan diimbas oleh pengguna lain.
+        </div>
+        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20QR%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
+      </div>
+    </div>
+
+    <!-- LOGO LIST USE PLP -->
+    <div class="prod-card">
+      <img src="https://files.catbox.moe/6c1hqe.jpg" alt="Logo List Use PLP" class="prod-card-img">
+      <div class="prod-card-badge">PLP EDITION</div>
+      <div class="prod-card-body">
+        <div class="prod-card-name">LOGO LIST USE PLP</div>
+        <div class="prod-card-type">Bot DAMX Blaster</div>
+        <div class="prod-card-price">RM 0.70<span> /unit</span></div>
+        <div class="prod-card-note">
+          <strong>📌 Catatan:</strong><br>
+          Pakej premium dengan senarai guna khas PLP. Dioptimumkan untuk penggunaan intensif dengan ciri-ciri lanjutan.
+        </div>
+        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20List%20Use%20PLP%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
+      </div>
+    </div>
+
+    <!-- PANEL PTREDOCYTY -->
+    <div class="prod-card">
+      <img src="https://files.catbox.moe/75g3ap.jpg" alt="Panel Ptredocyty" class="prod-card-img">
+      <div class="prod-card-badge">🔥 PREMIUM</div>
+      <div class="prod-card-body">
+        <div class="prod-card-name">PANEL PTREDOCYTY</div>
+        <div class="prod-card-type">Bot DAMX Blaster</div>
+        <div class="prod-card-price">RM 2.00<span> /unit</span></div>
+        <div class="prod-card-note">
+          <strong>📌 Catatan:</strong><br>
+          Panel ekslusif Ptredocyty — pakej paling lengkap dengan semua ciri premium. Pengalaman bot pada tahap tertinggi.
+        </div>
+        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Panel%20Ptredocyty%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 <span>DAMX STORE</span> — All Rights Reserved ⚡
+</footer>
+
+</body>
+</html>
