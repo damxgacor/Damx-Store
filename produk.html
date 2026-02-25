@@ -1,452 +1,568 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produk — DAMX STORE</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --yellow: #FFD700;
-    --yellow-bright: #FFE44D;
-    --black: #0A0A0A;
-    --dark: #111111;
-    --dark2: #1A1A1A;
-    --white: #F5F5F5;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAMX STORE — Produk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f2f7;
+      --bg-2: #e8ecf4;
+      --surface: rgba(255,255,255,0.72);
+      --surface-2: rgba(255,255,255,0.52);
+      --border: rgba(180,190,215,0.5);
+      --border-2: rgba(150,165,200,0.3);
+      --text-1: #1a1f35;
+      --text-2: #4a5270;
+      --text-3: #8890aa;
+      --accent: #5b7bff;
+      --accent-2: #7c9aff;
+      --accent-soft: rgba(91,123,255,0.1);
+      --accent-glow: rgba(91,123,255,0.2);
+      --teal: #38bfac;
+      --teal-soft: rgba(56,191,172,0.12);
+      --shadow-sm: 0 2px 8px rgba(90,100,140,0.08);
+      --shadow-md: 0 8px 24px rgba(80,95,140,0.12);
+      --shadow-lg: 0 20px 50px rgba(70,85,130,0.16);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-lg: 28px;
+      --radius-full: 100px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(91,123,255,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(56,191,172,0.06) 0%, transparent 50%);
+      color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100vh;
-  }
+    /* ── LOADER ── */
+    #loader {
+      position:fixed; inset:0; z-index:9999;
+      background:var(--bg);
+      background-image:
+        radial-gradient(circle at 30% 30%, rgba(91,123,255,0.09) 0%, transparent 55%),
+        radial-gradient(circle at 75% 75%, rgba(56,191,172,0.07) 0%, transparent 50%);
+      display:flex; align-items:center; justify-content:center; flex-direction:column; gap:28px;
+      transition:opacity .6s ease, visibility .6s;
+    }
+    #loader.out { opacity:0; visibility:hidden; pointer-events:none; }
+    .ld-logo {
+      font-family:'Outfit',sans-serif; font-size:2.6rem; font-weight:800;
+      letter-spacing:-1.5px; color:var(--text-1); animation:ldPulse 2s ease infinite;
+    }
+    .ld-logo em { font-style:normal; color:var(--accent); }
+    @keyframes ldPulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.7;transform:scale(.97);} }
+    .ld-track { width:240px;height:3px;background:var(--border);border-radius:10px;overflow:hidden; }
+    .ld-fill { height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--teal));box-shadow:0 0 12px var(--accent-glow);animation:ldLoad 2s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes ldLoad { 0%{width:0%;} 25%{width:35%;} 60%{width:70%;} 90%{width:90%;} 100%{width:100%;} }
+    .ld-caption { font-size:.78rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3); }
+    #main { opacity:0;transform:translateY(6px);transition:opacity .7s ease,transform .7s ease; }
+    #main.show { opacity:1;transform:translateY(0); }
 
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid #FFD70033;
-    padding: 16px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 100;
-  }
+    /* ── NAVBAR ── */
+    nav {
+      position:fixed;top:0;left:0;right:0;z-index:500;
+      background:rgba(240,242,247,0.82);
+      backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      border-bottom:1px solid var(--border);
+      padding:0 48px; height:66px;
+      display:flex;align-items:center;justify-content:space-between;
+      box-shadow:0 2px 8px rgba(90,100,140,0.08);
+    }
+    .nav-logo { font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.5px;color:var(--text-1);text-decoration:none; }
+    .nav-logo em { font-style:normal;color:var(--accent); }
+    .nav-links { display:flex;gap:2rem;list-style:none; }
+    .nav-link { color:var(--text-2);text-decoration:none;font-size:.9rem;font-weight:500;padding:6px 14px;border-radius:var(--radius-full);transition:all .2s ease; }
+    .nav-link:hover { color:var(--text-1);background:var(--surface); }
+    .nav-link.active { color:var(--accent);background:var(--accent-soft);font-weight:600; }
 
-  .nav-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
-    color: var(--yellow);
-    letter-spacing: 3px;
-    text-decoration: none;
-  }
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 120px 24px 52px;
+      text-align:center;
+      max-width:680px; margin:0 auto;
+    }
+    .header-chip {
+      display:inline-flex;align-items:center;gap:7px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius-full);padding:6px 16px;
+      font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      color:var(--accent);margin-bottom:22px;
+      box-shadow:0 2px 8px rgba(90,100,140,0.07);
+    }
+    .page-title {
+      font-family:'Outfit',sans-serif;
+      font-size:clamp(2.4rem,6vw,3.8rem);font-weight:800;
+      color:var(--text-1);letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px;
+    }
+    .page-title em { font-style:normal;color:var(--accent); }
+    .page-sub { font-size:1rem;color:var(--text-2); }
 
-  .nav-logo span { color: var(--white); }
+    /* ── FEATURED BANNER ── */
+    .featured {
+      max-width:1200px;margin:0 auto 48px;padding:0 48px;
+    }
+    .feat-banner {
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius-lg);padding:30px 36px;
+      display:flex;align-items:center;gap:36px;
+      box-shadow:var(--shadow-md);backdrop-filter:blur(12px);
+      position:relative;overflow:hidden;
+    }
+    .feat-banner::before {
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 80% at 100% 50%, rgba(56,191,172,0.07) 0%, transparent 70%);
+    }
+    .feat-banner-img {
+      width:110px;height:110px;border-radius:18px;object-fit:cover;
+      border:1.5px solid var(--border);background:var(--bg-2);
+      box-shadow:var(--shadow-sm);flex-shrink:0;
+      position:relative;z-index:2;
+    }
+    .feat-banner-content { position:relative;z-index:2; }
+    .feat-tag {
+      display:inline-block;background:var(--accent-soft);
+      color:var(--accent);padding:4px 12px;border-radius:var(--radius-full);
+      font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .feat-banner h2 {
+      font-family:'Outfit',sans-serif;font-size:1.7rem;font-weight:800;
+      color:var(--text-1);letter-spacing:-.5px;margin-bottom:6px;
+    }
+    .feat-banner p { color:var(--text-2);font-size:.95rem; }
 
-  .nav-links { display: flex; gap: 30px; list-style: none; }
+    /* ── PRODUCT GRID ── */
+    .products {
+      max-width:1300px;margin:0 auto;padding:0 48px 70px;
+    }
+    .sec-head {
+      display:flex;align-items:center;gap:10px;margin-bottom:28px;
+      padding-bottom:16px;border-bottom:1px solid var(--border);
+    }
+    .sec-head h2 { font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text-1); }
+    .sec-icon { width:36px;height:36px;background:var(--accent-soft);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem; }
 
-  .nav-links a {
-    color: #aaa;
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: color 0.3s;
-    position: relative;
-  }
+    .product-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+      gap:24px;
+    }
 
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 2px;
-    background: var(--yellow);
-    transition: width 0.3s;
-  }
+    /* ── PRODUCT CARD ── */
+    .prod-card {
+      background:var(--surface);
+      border:1.5px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+      backdrop-filter:blur(8px);
+      transition:all .3s cubic-bezier(.4,0,.2,1);
+      cursor:pointer;
+      position:relative;
+      opacity:0;animation:fadeUp .5s ease forwards;
+    }
+    .prod-card:nth-child(1){animation-delay:.05s;}
+    .prod-card:nth-child(2){animation-delay:.1s;}
+    .prod-card:nth-child(3){animation-delay:.15s;}
+    .prod-card:nth-child(4){animation-delay:.2s;}
 
-  .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
-  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    @keyframes fadeUp {
+      from{opacity:0;transform:translateY(14px);}
+      to{opacity:1;transform:translateY(0);}
+    }
 
-  .page-header {
-    padding: 120px 30px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+    .prod-card:hover {
+      transform:translateY(-6px) scale(1.01);
+      border-color:var(--accent-2);
+      box-shadow:var(--shadow-lg), 0 0 0 1px var(--accent-soft);
+    }
 
-  .page-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 50% 0%, #FFD70011, transparent 70%);
-  }
+    .card-badge {
+      position:absolute;top:14px;left:14px;z-index:10;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(6px);
+      border:1px solid var(--border);
+      color:var(--accent);padding:3px 12px;border-radius:var(--radius-full);
+      font-size:.7rem;font-weight:700;letter-spacing:.8px;
+    }
 
-  .page-header::after {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: 
-      linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
+    .card-expand-hint {
+      position:absolute;top:14px;right:14px;z-index:10;
+      background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);
+      border:1px solid var(--border);border-radius:var(--radius-full);
+      padding:3px 10px;font-size:.7rem;font-weight:600;color:var(--text-3);
+      display:flex;align-items:center;gap:5px;
+    }
 
-  .page-header-content { position: relative; z-index: 1; }
+    .card-img {
+      width:100%;height:190px;object-fit:cover;
+      display:block;
+      border-bottom:1px solid var(--border);
+      transition:transform .4s ease;
+    }
+    .prod-card:hover .card-img { transform:scale(1.03); }
 
-  .page-badge {
-    display: inline-block;
-    background: #FFD70015;
-    border: 1px solid #FFD70044;
-    color: var(--yellow);
-    font-size: 11px;
-    letter-spacing: 4px;
-    padding: 6px 20px;
-    border-radius: 2px;
-    margin-bottom: 20px;
-    font-weight: 700;
-  }
+    .card-body { padding:22px; }
+    .prod-name {
+      font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:700;
+      color:var(--text-1);margin-bottom:3px;
+    }
+    .prod-type { font-size:.73rem;color:var(--accent);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px; }
+    .prod-price {
+      font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;
+      color:var(--text-1);letter-spacing:-.5px;
+      margin-bottom:14px;display:flex;align-items:baseline;gap:5px;
+    }
+    .prod-price span { font-size:.85rem;color:var(--text-3);font-weight:400; }
+    .prod-note {
+      font-size:.83rem;color:var(--text-2);
+      padding:10px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+      margin-bottom:16px;line-height:1.55;
+    }
+    .prod-note strong { color:var(--accent);font-weight:600; }
 
-  .page-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(32px, 8vw, 56px);
-    font-weight: 900;
-    color: var(--yellow);
-    letter-spacing: 4px;
-    text-shadow: 0 0 40px #FFD70066;
-    margin-bottom: 10px;
-  }
+    .order-btn {
+      display:block;text-align:center;
+      background:var(--accent-soft);
+      border:1.5px solid var(--border);
+      color:var(--text-2);
+      text-decoration:none;padding:11px;
+      border-radius:var(--radius-full);
+      font-weight:600;font-size:.88rem;
+      transition:all .22s ease;
+    }
+    .order-btn:hover {
+      background:var(--accent);border-color:var(--accent);color:#fff;
+      box-shadow:0 6px 18px var(--accent-glow);
+    }
 
-  .page-sub {
-    font-size: 15px;
-    color: #666;
-    letter-spacing: 2px;
-  }
+    /* ── PRODUCT MODAL (expand) ── */
+    .modal-overlay {
+      display:none;position:fixed;inset:0;z-index:9000;
+      background:rgba(20,25,45,0.4);
+      backdrop-filter:blur(14px) saturate(140%);
+      align-items:center;justify-content:center;
+    }
+    .modal-overlay.open { display:flex; }
 
-  /* SECTION */
-  .section-label {
-    text-align: center;
-    margin: 0 auto 40px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    color: #555;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-  }
+    .modal-box {
+      background:rgba(248,249,253,0.95);
+      border:1.5px solid var(--border);
+      border-radius:var(--radius-lg);
+      max-width:500px;width:92%;
+      box-shadow:var(--shadow-lg);
+      overflow:hidden;
+      animation:modalIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    @keyframes modalIn {
+      from{opacity:0;transform:scale(.88) translateY(20px);}
+      to{opacity:1;transform:scale(1) translateY(0);}
+    }
 
-  .section-label span {
-    color: var(--yellow);
-  }
+    .modal-img {
+      width:100%;height:240px;object-fit:cover;
+      border-bottom:1px solid var(--border);
+    }
 
-  /* PRODUCT BANNER */
-  .product-banner {
-    max-width: 900px;
-    margin: 0 auto 60px;
-    padding: 0 30px;
-    background: #111;
-    border: 1px solid #2a2a2a;
-    border-left: 4px solid var(--yellow);
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    overflow: hidden;
-    position: relative;
-  }
+    .modal-body { padding:28px; }
+    .modal-badge {
+      display:inline-block;background:var(--accent-soft);color:var(--accent);
+      padding:3px 12px;border-radius:var(--radius-full);
+      font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+      margin-bottom:12px;
+    }
+    .modal-name {
+      font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;
+      color:var(--text-1);letter-spacing:-.5px;margin-bottom:4px;
+    }
+    .modal-type { font-size:.75rem;color:var(--accent);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px; }
+    .modal-price {
+      font-family:'Outfit',sans-serif;font-size:2.4rem;font-weight:800;
+      color:var(--text-1);letter-spacing:-.5px;margin-bottom:16px;
+    }
+    .modal-price span { font-size:1rem;color:var(--text-3);font-weight:400; }
+    .modal-note {
+      font-size:.9rem;color:var(--text-2);line-height:1.6;
+      padding:14px;background:var(--accent-soft);border-radius:var(--radius-sm);
+      margin-bottom:20px;
+    }
+    .modal-actions { display:flex;gap:12px; }
+    .modal-order-btn {
+      flex:1;display:block;text-align:center;
+      background:var(--accent);color:#fff;
+      text-decoration:none;padding:14px;border-radius:var(--radius-full);
+      font-weight:700;font-size:.95rem;
+      box-shadow:0 6px 20px var(--accent-glow);
+      transition:all .2s ease;
+    }
+    .modal-order-btn:hover { background:#4a6aff;transform:translateY(-1px); }
+    .modal-close-btn {
+      padding:14px 20px;border-radius:var(--radius-full);
+      background:none;border:1.5px solid var(--border);
+      color:var(--text-3);font-size:.9rem;font-weight:600;cursor:pointer;
+      transition:all .2s ease;
+    }
+    .modal-close-btn:hover { background:rgba(0,0,0,0.04);color:var(--text-1); }
 
-  .product-banner::before {
-    content: '⚡';
-    position: absolute;
-    right: -10px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 120px;
-    opacity: 0.03;
-  }
+    /* ── FEATURES ── */
+    .section { max-width:1200px;margin:0 auto;padding:0 48px 70px; }
+    .feature-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px; }
+    .feat-card {
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+      padding:28px 20px;text-align:center;box-shadow:var(--shadow-sm);backdrop-filter:blur(8px);
+      transition:all .25s ease;opacity:0;animation:fadeUp .5s ease forwards;
+    }
+    .feat-card:nth-child(1){animation-delay:.05s;} .feat-card:nth-child(2){animation-delay:.1s;}
+    .feat-card:nth-child(3){animation-delay:.15s;} .feat-card:nth-child(4){animation-delay:.2s;}
+    .feat-card:hover { transform:translateY(-4px);border-color:var(--accent-2);box-shadow:var(--shadow-md); }
+    .feat-ico { font-size:2rem;margin-bottom:14px;display:block; }
+    .feat-title { font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:6px; }
+    .feat-desc { font-size:.83rem;color:var(--text-3);line-height:1.5; }
 
-  .product-banner img {
-    width: 140px; height: 140px;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
+    /* ── CTA ── */
+    .cta-section { max-width:900px;margin:0 auto 80px;padding:0 48px; }
+    .cta-card {
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+      padding:52px 40px;text-align:center;box-shadow:var(--shadow-lg);backdrop-filter:blur(16px);
+      position:relative;overflow:hidden;
+    }
+    .cta-card::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(91,123,255,0.07) 0%,transparent 70%); }
+    .cta-card h2 { font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;color:var(--text-1);letter-spacing:-.5px;margin-bottom:12px;position:relative; }
+    .cta-card p { color:var(--text-2);font-size:1rem;max-width:450px;margin:0 auto 28px;position:relative; }
+    .btn { display:inline-flex;align-items:center;gap:9px;padding:13px 30px;border-radius:var(--radius-full);font-size:.95rem;font-weight:600;text-decoration:none;transition:all .25s cubic-bezier(.4,0,.2,1);border:1.5px solid transparent;cursor:pointer; }
+    .btn-primary { background:var(--accent);color:#fff;box-shadow:0 6px 20px var(--accent-glow); }
+    .btn-primary:hover { background:#4a6aff;transform:translateY(-2px);box-shadow:0 10px 30px var(--accent-glow); }
 
-  .product-banner-info { padding: 30px 0; }
+    footer { text-align:center;padding:36px 24px;border-top:1px solid var(--border);color:var(--text-3);font-size:.85rem; }
+    footer em { font-style:normal;color:var(--accent);font-weight:600; }
 
-  .product-brand {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--yellow);
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
-
-  .product-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(20px, 4vw, 30px);
-    font-weight: 900;
-    color: var(--white);
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-
-  .product-desc {
-    font-size: 14px;
-    color: #888;
-    line-height: 1.7;
-  }
-
-  /* CARDS GRID */
-  .cards-section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 30px 80px;
-  }
-
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px;
-  }
-
-  .prod-card {
-    background: var(--dark);
-    border: 1px solid #222;
-    border-top: 3px solid var(--yellow);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .prod-card:nth-child(2) { animation-delay: 0.1s; }
-  .prod-card:nth-child(3) { animation-delay: 0.2s; }
-  .prod-card:nth-child(4) { animation-delay: 0.3s; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .prod-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 50px #FFD70022;
-    border-color: #FFD70044;
-  }
-
-  .prod-card-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-    filter: brightness(0.9);
-    transition: filter 0.3s;
-  }
-
-  .prod-card:hover .prod-card-img { filter: brightness(1.05); }
-
-  .prod-card-badge {
-    position: absolute;
-    top: 16px; left: 16px;
-    background: var(--yellow);
-    color: var(--black);
-    font-size: 10px;
-    letter-spacing: 2px;
-    padding: 4px 12px;
-    font-weight: 700;
-    border-radius: 1px;
-  }
-
-  .prod-card-body { padding: 20px; }
-
-  .prod-card-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--yellow);
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-
-  .prod-card-type {
-    font-size: 12px;
-    color: #888;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-
-  .prod-card-price {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-
-  .prod-card-price span {
-    font-size: 13px;
-    color: #666;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 400;
-  }
-
-  .prod-card-note {
-    font-size: 12px;
-    color: #666;
-    line-height: 1.6;
-    padding-top: 12px;
-    border-top: 1px solid #222;
-    margin-top: 14px;
-  }
-
-  .prod-card-note strong { color: var(--yellow); }
-
-  .prod-card-btn {
-    display: block;
-    text-align: center;
-    margin-top: 16px;
-    background: var(--yellow);
-    color: var(--black);
-    padding: 10px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-  }
-
-  .prod-card-btn:hover {
-    background: var(--yellow-bright);
-    box-shadow: 0 4px 20px #FFD70044;
-  }
-
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    border-top: 1px solid #1a1a1a;
-    color: #444;
-    font-size: 13px;
-    letter-spacing: 2px;
-  }
-
-  footer span { color: var(--yellow); }
-
-  @media (max-width: 600px) {
-    .product-banner { flex-direction: column; text-align: center; }
-    .product-banner img { width: 100%; height: 200px; }
-    .nav-links { gap: 14px; }
-    .nav-links a { font-size: 11px; }
-  }
-</style>
+    @media(max-width:800px){
+      nav{padding:0 24px;} .nav-links{gap:1rem;}
+      .products{padding:0 24px 60px;} .featured{padding:0 24px;} .section{padding:0 24px 60px;}
+      .feat-banner{flex-direction:column;text-align:center;gap:20px;} .feat-banner-img{width:90px;height:90px;}
+      .cta-section{padding:0 24px;}
+    }
+    @media(max-width:500px){ .nav-link{font-size:.8rem;padding:5px 10px;} }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">DAMX <span>STORE</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="produk.html" class="active">Produk</a></li>
-    <li><a href="payment.html">Payment</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-</nav>
+<div id="loader">
+  <div class="ld-logo">DAMX<em>store</em></div>
+  <div class="ld-track"><div class="ld-fill"></div></div>
+  <div class="ld-caption">Memuatkan Produk...</div>
+</div>
 
-<div class="page-header">
-  <div class="page-header-content">
-    <div class="page-badge">⚡ KATALOG PRODUK ⚡</div>
-    <h1 class="page-title">PRODUK KAMI</h1>
-    <p class="page-sub">Pilih produk terbaik untuk pengalaman bot anda</p>
+<div id="main">
+  <nav>
+    <a href="index.html" class="nav-logo">DAMX<em>store</em></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="produk.html" class="nav-link active">Produk</a></li>
+      <li><a href="payment.html" class="nav-link">Payment</a></li>
+      <li><a href="contact.html" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="header-chip">📦 Produk Kami</div>
+    <h1 class="page-title">Pakej & <em>Layanan</em></h1>
+    <p class="page-sub">Pilih pakej bot yang sesuai dengan keperluan anda. Klik kad untuk maklumat lanjut.</p>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured">
+    <div class="feat-banner">
+      <img src="https://files.catbox.moe/7zkn4r.png" alt="DAMX Blaster" class="feat-banner-img" onerror="this.src='https://placehold.co/300x300/e8ecf4/5b7bff?text=DAMX'">
+      <div class="feat-banner-content">
+        <div class="feat-tag">⚡ FLAGSHIP</div>
+        <h2>DAMX BLASTER</h2>
+        <p>Bot automasi dengan teknologi terkini, stabil dan mudah digunakan untuk semua keperluan.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products">
+    <div class="sec-head">
+      <div class="sec-icon">📦</div>
+      <h2>Pilihan Pakej</h2>
+    </div>
+    <div class="product-grid">
+
+      <div class="prod-card" onclick="openProduct(0)">
+        <div class="card-badge">STANDARD</div>
+        <div class="card-expand-hint">🔍 Klik</div>
+        <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo Biasa" class="card-img" onerror="this.src='https://placehold.co/600x400/e8ecf4/5b7bff?text=STANDARD'">
+        <div class="card-body">
+          <div class="prod-name">Logo Biasa</div>
+          <div class="prod-type">DAMX Blaster</div>
+          <div class="prod-price">RM0.20 <span>/unit</span></div>
+          <div class="prod-note"><strong>Starter:</strong> Pakej asas dengan logo standard terbaik.</div>
+          <div class="order-btn">Lihat Pakej →</div>
+        </div>
+      </div>
+
+      <div class="prod-card" onclick="openProduct(1)">
+        <div class="card-badge">QR EDITION</div>
+        <div class="card-expand-hint">🔍 Klik</div>
+        <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo QR" class="card-img" onerror="this.src='https://placehold.co/600x400/e8ecf4/5b7bff?text=QR'">
+        <div class="card-body">
+          <div class="prod-name">Logo QR</div>
+          <div class="prod-type">DAMX Blaster</div>
+          <div class="prod-price">RM0.50 <span>/unit</span></div>
+          <div class="prod-note"><strong>QR Integrated:</strong> Logo dengan kod QR eksklusif.</div>
+          <div class="order-btn">Lihat Pakej →</div>
+        </div>
+      </div>
+
+      <div class="prod-card" onclick="openProduct(2)">
+        <div class="card-badge">PLP EDITION</div>
+        <div class="card-expand-hint">🔍 Klik</div>
+        <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo PLP" class="card-img" onerror="this.src='https://placehold.co/600x400/e8ecf4/5b7bff?text=PLP'">
+        <div class="card-body">
+          <div class="prod-name">Logo List Use PLP</div>
+          <div class="prod-type">DAMX Blaster</div>
+          <div class="prod-price">RM0.70 <span>/unit</span></div>
+          <div class="prod-note"><strong>Advanced:</strong> Senarai guna khas untuk PLP.</div>
+          <div class="order-btn">Lihat Pakej →</div>
+        </div>
+      </div>
+
+      <div class="prod-card" onclick="openProduct(3)">
+        <div class="card-badge">PREMIUM</div>
+        <div class="card-expand-hint">🔍 Klik</div>
+        <img src="https://files.catbox.moe/se31kt.jpg" alt="Panel Ptredocyty" class="card-img" onerror="this.src='https://placehold.co/600x400/e8ecf4/5b7bff?text=PREMIUM'">
+        <div class="card-body">
+          <div class="prod-name">Panel Ptredocyty</div>
+          <div class="prod-type">DAMX Blaster</div>
+          <div class="prod-price">RM2.00 <span>/unit</span></div>
+          <div class="prod-note"><strong>Ultimate:</strong> Panel dengan semua fitur premium.</div>
+          <div class="order-btn">Lihat Pakej →</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-icon">✨</div>
+      <h2>Kenapa Pilih Kami</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feat-card"><span class="feat-ico">⚡</span><div class="feat-title">Cepat</div><div class="feat-desc">Proses dalam 1–24 jam</div></div>
+      <div class="feat-card"><span class="feat-ico">🛡️</span><div class="feat-title">Selamat</div><div class="feat-desc">Data terenkripsi penuh</div></div>
+      <div class="feat-card"><span class="feat-ico">🤖</span><div class="feat-title">Bot Premium</div><div class="feat-desc">Teknologi eksklusif</div></div>
+      <div class="feat-card"><span class="feat-ico">💬</span><div class="feat-title">Support 24/7</div><div class="feat-desc">Team sedia membantu</div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-card">
+      <h2>Berminat?</h2>
+      <p>Hubungi kami untuk konsultasi dan pemilihan pakej yang tepat untuk keperluan anda.</p>
+      <a href="https://wa.me/601130538675" class="btn btn-primary" target="_blank" rel="noopener">📱 WhatsApp Sekarang</a>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 <em>DAMX STORE</em> — All rights reserved</footer>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="prodModal" onclick="closeProduct(event)">
+  <div class="modal-box">
+    <img class="modal-img" id="mImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-badge" id="mBadge"></div>
+      <div class="modal-name" id="mName"></div>
+      <div class="modal-type" id="mType"></div>
+      <div class="modal-price" id="mPrice"></div>
+      <div class="modal-note" id="mNote"></div>
+      <div class="modal-actions">
+        <a href="#" class="modal-order-btn" id="mOrderBtn" target="_blank" rel="noopener">⚡ Order Sekarang</a>
+        <button class="modal-close-btn" onclick="closeProductBtn()">Tutup</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div style="max-width:900px;margin:0 auto 50px;padding:0 30px;">
-  <div class="product-banner">
-    <img src="https://files.catbox.moe/7zkn4r.png" alt="BOT DAMX BLASTER">
-    <div class="product-banner-info">
-      <div class="product-brand">⚡ DAMX OFFICIAL</div>
-      <div class="product-name">BOT DAMX BLASTER</div>
-      <p class="product-desc">Bot automatik berkuasa tinggi dengan teknologi terkini. Direka untuk prestasi maksimum, kestabilan penuh, dan kemudahan penggunaan setiap hari.</p>
-    </div>
-  </div>
-</div>
+<script>
+  const products = [
+    {
+      badge:'STANDARD', img:'https://files.catbox.moe/an0o9e.jpg',
+      name:'Logo Biasa', type:'DAMX Blaster',
+      price:'RM0.20 <span>/unit</span>',
+      note:'<strong>Starter:</strong> Pakej asas dengan logo standard. Sesuai untuk penggunaan harian yang memerlukan logo berkualiti.',
+      wa:'Saya%20berminat%20dengan%20produk%20Logo%20Biasa%20DAMX%20Blaster'
+    },
+    {
+      badge:'QR EDITION', img:'https://files.catbox.moe/an0o9e.jpg',
+      name:'Logo QR', type:'DAMX Blaster',
+      price:'RM0.50 <span>/unit</span>',
+      note:'<strong>QR Integrated:</strong> Logo dengan kod QR eksklusif yang boleh dikimbas terus dari peranti anda.',
+      wa:'Saya%20berminat%20dengan%20produk%20Logo%20QR%20DAMX%20Blaster'
+    },
+    {
+      badge:'PLP EDITION', img:'https://files.catbox.moe/an0o9e.jpg',
+      name:'Logo List Use PLP', type:'DAMX Blaster',
+      price:'RM0.70 <span>/unit</span>',
+      note:'<strong>Advanced:</strong> Senarai guna khas untuk PLP dengan ciri-ciri lanjutan yang memudahkan operasi harian.',
+      wa:'Saya%20berminat%20dengan%20produk%20Logo%20List%20Use%20PLP%20DAMX%20Blaster'
+    },
+    {
+      badge:'PREMIUM', img:'https://files.catbox.moe/se31kt.jpg',
+      name:'Panel Ptredocyty', type:'DAMX Blaster',
+      price:'RM2.00 <span>/unit</span>',
+      note:'<strong>Ultimate:</strong> Panel dengan semua fitur premium terkumpul. Pengalaman bot terbaik dan paling lengkap.',
+      wa:'Saya%20berminat%20dengan%20produk%20Panel%20Ptredocyty%20DAMX%20Blaster'
+    }
+  ];
 
-<div class="cards-section">
-  <p class="section-label">— <span>PILIH PAKEJ</span> —</p>
-  <div class="cards-grid">
+  function openProduct(i) {
+    const p = products[i];
+    document.getElementById('mImg').src = p.img;
+    document.getElementById('mImg').onerror = function(){ this.src='https://placehold.co/600x400/e8ecf4/5b7bff?text=DAMX'; };
+    document.getElementById('mBadge').textContent = p.badge;
+    document.getElementById('mName').textContent = p.name;
+    document.getElementById('mType').textContent = p.type;
+    document.getElementById('mPrice').innerHTML = p.price;
+    document.getElementById('mNote').innerHTML = p.note;
+    document.getElementById('mOrderBtn').href = `https://wa.me/601130538675?text=${p.wa}`;
+    document.getElementById('prodModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeProduct(e) {
+    if (e.target === document.getElementById('prodModal')) closeProductBtn();
+  }
+  function closeProductBtn() {
+    document.getElementById('prodModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeProductBtn(); });
 
-    <!-- LOGO BIASA -->
-    <div class="prod-card">
-      <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo Biasa" class="prod-card-img">
-      <div class="prod-card-badge">STANDARD</div>
-      <div class="prod-card-body">
-        <div class="prod-card-name">LOGO BIASA</div>
-        <div class="prod-card-type">Bot DAMX Blaster</div>
-        <div class="prod-card-price">RM 0.20<span> /unit</span></div>
-        <div class="prod-card-note">
-          <strong>📌 Catatan:</strong><br>
-          Pakej asas dengan logo standard DAMX. Sesuai untuk pengguna baru yang ingin mencuba perkhidmatan bot kami.
-        </div>
-        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20Biasa%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
-      </div>
-    </div>
-
-    <!-- LOGO QR -->
-    <div class="prod-card">
-      <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo QR" class="prod-card-img">
-      <div class="prod-card-badge">QR EDITION</div>
-      <div class="prod-card-body">
-        <div class="prod-card-name">LOGO QR</div>
-        <div class="prod-card-type">Bot DAMX Blaster</div>
-        <div class="prod-card-price">RM 0.50<span> /unit</span></div>
-        <div class="prod-card-note">
-          <strong>📌 Catatan:</strong><br>
-          Logo dengan kod QR eksklusif terintegrasi. Mudah untuk dikongsi dan diimbas oleh pengguna lain.
-        </div>
-        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20QR%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
-      </div>
-    </div>
-
-    <!-- LOGO LIST USE PLP -->
-    <div class="prod-card">
-      <img src="https://files.catbox.moe/an0o9e.jpg" alt="Logo List Use PLP" class="prod-card-img">
-      <div class="prod-card-badge">PLP EDITION</div>
-      <div class="prod-card-body">
-        <div class="prod-card-name">LOGO LIST USE PLP</div>
-        <div class="prod-card-type">Bot DAMX Blaster</div>
-        <div class="prod-card-price">RM 0.70<span> /unit</span></div>
-        <div class="prod-card-note">
-          <strong>📌 Catatan:</strong><br>
-          Pakej premium dengan senarai guna khas PLP. Dioptimumkan untuk penggunaan intensif dengan ciri-ciri lanjutan.
-        </div>
-        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Logo%20List%20Use%20PLP%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
-      </div>
-    </div>
-
-    <!-- PANEL PTREDOCYTY -->
-    <div class="prod-card">
-      <img src="https://files.catbox.moe/se31kt.jpg" alt="Panel Ptredocyty" class="prod-card-img">
-      <div class="prod-card-badge">🔥 PREMIUM</div>
-      <div class="prod-card-body">
-        <div class="prod-card-name">PANEL PTREDOCYTY</div>
-        <div class="prod-card-type">Bot DAMX Blaster</div>
-        <div class="prod-card-price">RM 2.00<span> /unit</span></div>
-        <div class="prod-card-note">
-          <strong>📌 Catatan:</strong><br>
-          Panel ekslusif Ptredocyty — pakej paling lengkap dengan semua ciri premium. Pengalaman bot pada tahap tertinggi.
-        </div>
-        <a href="https://wa.me/601130538675?text=Saya%20berminat%20dengan%20produk%20Panel%20Ptredocyty%20DAMX%20Blaster" class="prod-card-btn" target="_blank">⚡ ORDER SEKARANG</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 <span>DAMX STORE</span> — All Rights Reserved ⚡
-</footer>
-
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('out');
+      setTimeout(() => { document.getElementById('main').classList.add('show'); }, 180);
+    }, 1800);
+  });
+</script>
 </body>
 </html>
