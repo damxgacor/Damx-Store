@@ -1,414 +1,266 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — DAMX STORE</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --yellow: #FFD700;
-    --yellow-bright: #FFE44D;
-    --black: #0A0A0A;
-    --dark: #111111;
-    --dark2: #1A1A1A;
-    --white: #F5F5F5;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAMX STORE — Hubungi Kami</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f2f7;
+      --surface: rgba(255,255,255,0.72);
+      --border: rgba(180,190,215,0.5);
+      --border-2: rgba(150,165,200,0.3);
+      --text-1: #1a1f35;
+      --text-2: #4a5270;
+      --text-3: #8890aa;
+      --accent: #5b7bff;
+      --accent-2: #7c9aff;
+      --accent-soft: rgba(91,123,255,0.1);
+      --accent-glow: rgba(91,123,255,0.2);
+      --teal: #38bfac;
+      --teal-soft: rgba(56,191,172,0.12);
+      --shadow-sm: 0 2px 8px rgba(90,100,140,0.08);
+      --shadow-md: 0 8px 24px rgba(80,95,140,0.12);
+      --shadow-lg: 0 20px 50px rgba(70,85,130,0.16);
+      --radius: 20px; --radius-sm: 12px; --radius-lg: 28px; --radius-full: 100px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background:var(--bg);
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(91,123,255,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(56,191,172,0.06) 0%, transparent 50%);
+      color:var(--text-1);font-family:'DM Sans',sans-serif;
+      line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;
+    }
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100vh;
-  }
+    /* LOADER */
+    #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);background-image:radial-gradient(circle at 30% 30%,rgba(91,123,255,0.09) 0%,transparent 55%),radial-gradient(circle at 75% 75%,rgba(56,191,172,0.07) 0%,transparent 50%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;transition:opacity .6s ease,visibility .6s;}
+    #loader.out{opacity:0;visibility:hidden;pointer-events:none;}
+    .ld-logo{font-family:'Outfit',sans-serif;font-size:2.6rem;font-weight:800;letter-spacing:-1.5px;color:var(--text-1);animation:ldPulse 2s ease infinite;}
+    .ld-logo em{font-style:normal;color:var(--accent);}
+    @keyframes ldPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.7;transform:scale(.97);}}
+    .ld-track{width:240px;height:3px;background:var(--border);border-radius:10px;overflow:hidden;}
+    .ld-fill{height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--teal));box-shadow:0 0 12px var(--accent-glow);animation:ldLoad 2s cubic-bezier(.4,0,.2,1) forwards;}
+    @keyframes ldLoad{0%{width:0%;}25%{width:35%;}60%{width:70%;}90%{width:90%;}100%{width:100%;}}
+    .ld-caption{font-size:.78rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);}
+    #main{opacity:0;transform:translateY(6px);transition:opacity .7s ease,transform .7s ease;}
+    #main.show{opacity:1;transform:translateY(0);}
 
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid #FFD70033;
-    padding: 16px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 100;
-  }
+    /* NAVBAR */
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(240,242,247,0.82);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--border);padding:0 48px;height:66px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(90,100,140,0.08);}
+    .nav-logo{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.5px;color:var(--text-1);text-decoration:none;}
+    .nav-logo em{font-style:normal;color:var(--accent);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-link{color:var(--text-2);text-decoration:none;font-size:.9rem;font-weight:500;padding:6px 14px;border-radius:var(--radius-full);transition:all .2s ease;}
+    .nav-link:hover{color:var(--text-1);background:var(--surface);}
+    .nav-link.active{color:var(--accent);background:var(--accent-soft);font-weight:600;}
 
-  .nav-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
-    color: var(--yellow);
-    letter-spacing: 3px;
-    text-decoration: none;
-  }
+    /* PAGE HEADER */
+    .page-header{padding:120px 24px 48px;text-align:center;max-width:680px;margin:0 auto;}
+    .header-chip{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-full);padding:6px 16px;font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:22px;box-shadow:0 2px 8px rgba(90,100,140,0.07);}
+    .page-title{font-family:'Outfit',sans-serif;font-size:clamp(2.4rem,6vw,3.8rem);font-weight:800;color:var(--text-1);letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px;}
+    .page-title em{font-style:normal;color:var(--accent);}
+    .page-sub{font-size:1rem;color:var(--text-2);}
 
-  .nav-logo span { color: var(--white); }
+    /* STATUS PILL */
+    .status-wrap{display:flex;justify-content:center;margin-bottom:50px;}
+    .status-pill-big{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-full);padding:12px 28px;display:inline-flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm);backdrop-filter:blur(8px);}
+    .status-dot{display:inline-block;width:10px;height:10px;background:var(--teal);border-radius:50%;box-shadow:0 0 0 3px var(--teal-soft);animation:blink 2s ease infinite;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+    .status-text{color:var(--text-2);font-size:.9rem;}
+    .status-text strong{color:var(--text-1);font-weight:700;}
+    .resp-badge{background:var(--accent-soft);border:1px solid var(--border);border-radius:var(--radius-full);padding:4px 14px;font-size:.78rem;color:var(--accent);font-weight:600;}
 
-  .nav-links { display: flex; gap: 30px; list-style: none; }
+    /* SEC HEAD */
+    .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+    .sec-head h2{font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text-1);}
+    .sec-icon{width:36px;height:36px;background:var(--accent-soft);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
 
-  .nav-links a {
-    color: #aaa;
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: color 0.3s;
-    position: relative;
-  }
+    /* CONTACT SECTION */
+    .contact-section{max-width:1100px;margin:0 auto;padding:0 48px 80px;}
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;margin-bottom:40px;}
 
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 2px;
-    background: var(--yellow);
-    transition: width 0.3s;
-  }
+    /* CONTACT CARD */
+    .contact-card{
+      background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+      padding:22px;display:flex;align-items:center;gap:18px;
+      text-decoration:none;color:inherit;
+      box-shadow:var(--shadow-sm);backdrop-filter:blur(8px);
+      transition:all .28s cubic-bezier(.4,0,.2,1);
+      opacity:0;animation:fadeUp .5s ease forwards;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+    .contact-card:nth-child(1){animation-delay:.04s;} .contact-card:nth-child(2){animation-delay:.08s;} .contact-card:nth-child(3){animation-delay:.12s;}
+    .contact-card:nth-child(4){animation-delay:.16s;} .contact-card:nth-child(5){animation-delay:.2s;} .contact-card:nth-child(6){animation-delay:.24s;}
 
-  .nav-links a:hover, .nav-links a.active { color: var(--yellow); }
-  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .contact-card:hover{
+      transform:translateY(-5px);
+      border-color:var(--accent-2);
+      background:rgba(255,255,255,0.85);
+      box-shadow:var(--shadow-md),0 0 0 1px var(--accent-soft);
+    }
 
-  .page-header {
-    padding: 120px 30px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+    .cc-icon{
+      width:52px;height:52px;
+      background:var(--accent-soft);border:1px solid var(--border);
+      border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.6rem;flex-shrink:0;
+      transition:all .2s ease;
+    }
+    .contact-card:hover .cc-icon{background:var(--accent);border-color:var(--accent);box-shadow:0 4px 14px var(--accent-glow);}
+    .cc-info{flex:1;}
+    .cc-platform{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:3px;}
+    .cc-name{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text-1);margin-bottom:3px;}
+    .cc-handle{font-size:.87rem;color:var(--text-2);display:flex;align-items:center;gap:5px;word-break:break-word;}
+    .cc-handle::before{content:'→';color:var(--accent);font-size:.95rem;opacity:.7;}
+    .cc-arrow{font-size:1.1rem;color:var(--text-3);flex-shrink:0;transition:all .2s ease;}
+    .contact-card:hover .cc-arrow{color:var(--accent);transform:translateX(3px);}
 
-  .page-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 50% 0%, #FFD70011, transparent 70%);
-  }
+    /* DIVIDER */
+    .divider{height:1px;background:var(--border);margin:36px 0;}
 
-  .page-header::after {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: 
-      linear-gradient(rgba(255,215,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,215,0,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
+    footer{text-align:center;padding:36px 24px;border-top:1px solid var(--border);color:var(--text-3);font-size:.85rem;}
+    footer em{font-style:normal;color:var(--accent);font-weight:600;}
 
-  .page-header-content { position: relative; z-index: 1; }
-
-  .page-badge {
-    display: inline-block;
-    background: #FFD70015;
-    border: 1px solid #FFD70044;
-    color: var(--yellow);
-    font-size: 11px;
-    letter-spacing: 4px;
-    padding: 6px 20px;
-    border-radius: 2px;
-    margin-bottom: 20px;
-    font-weight: 700;
-  }
-
-  .page-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(32px, 8vw, 56px);
-    font-weight: 900;
-    color: var(--yellow);
-    letter-spacing: 4px;
-    text-shadow: 0 0 40px #FFD70066;
-    margin-bottom: 10px;
-  }
-
-  .page-sub {
-    font-size: 15px;
-    color: #666;
-    letter-spacing: 2px;
-  }
-
-  /* SECTION */
-  .contact-section {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 30px 80px;
-  }
-
-  .section-label {
-    text-align: center;
-    margin-bottom: 36px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    color: #555;
-    letter-spacing: 4px;
-  }
-
-  .section-label span { color: var(--yellow); }
-
-  /* CONTACT GRID */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin-bottom: 60px;
-  }
-
-  .contact-card {
-    background: var(--dark);
-    border: 1px solid #222;
-    border-left: 3px solid var(--yellow);
-    padding: 24px 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    text-decoration: none;
-    color: var(--white);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .contact-card:nth-child(2) { animation-delay: 0.08s; }
-  .contact-card:nth-child(3) { animation-delay: 0.16s; }
-  .contact-card:nth-child(4) { animation-delay: 0.24s; }
-  .contact-card:nth-child(5) { animation-delay: 0.32s; }
-  .contact-card:nth-child(6) { animation-delay: 0.40s; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .contact-card::after {
-    content: '→';
-    position: absolute;
-    right: 20px;
-    font-size: 18px;
-    color: #FFD70044;
-    transition: all 0.3s;
-  }
-
-  .contact-card:hover {
-    background: #161616;
-    border-color: var(--yellow);
-    transform: translateX(6px);
-    box-shadow: -4px 0 30px #FFD70022;
-    color: var(--white);
-  }
-
-  .contact-card:hover::after {
-    right: 14px;
-    color: var(--yellow);
-  }
-
-  .contact-icon {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .icon-wa { background: #1a2e1a; border: 1px solid #25D36633; }
-  .icon-tg { background: #1a2533; border: 1px solid #0088cc33; }
-  .icon-bot { background: #1a1a30; border: 1px solid #7289da33; }
-  .icon-ch-tg { background: #142030; border: 1px solid #0099ff33; }
-  .icon-ch-wa { background: #1a2e1a; border: 1px solid #25D36633; }
-  .icon-fb { background: #2a1515; border: 1px solid #FF444433; }
-
-  .contact-info { flex: 1; min-width: 0; padding-right: 24px; }
-
-  .contact-platform {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #555;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    font-weight: 700;
-  }
-
-  .contact-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--yellow);
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .contact-handle {
-    font-size: 13px;
-    color: #888;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* DIVIDER */
-  .section-divider {
-    border: none;
-    border-top: 1px solid #1a1a1a;
-    margin: 50px 0;
-  }
-
-  /* STATUS CARD */
-  .status-strip {
-    background: #111;
-    border: 1px solid #2a2a2a;
-    border-top: 2px solid var(--yellow);
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .status-strip-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
-    color: var(--yellow);
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-  }
-
-  .status-strip p { font-size: 14px; color: #888; line-height: 1.7; }
-  .status-strip strong { color: var(--yellow); }
-
-  .status-dot {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: #25D366;
-    margin-right: 6px;
-    vertical-align: middle;
-    animation: pulseDot 1.5s ease infinite;
-    box-shadow: 0 0 10px #25D36688;
-  }
-
-  @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.7; }
-  }
-
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    border-top: 1px solid #1a1a1a;
-    color: #444;
-    font-size: 13px;
-    letter-spacing: 2px;
-  }
-
-  footer span { color: var(--yellow); }
-
-  @media (max-width: 600px) {
-    .nav-links { gap: 14px; }
-    .nav-links a { font-size: 11px; }
-    .contact-grid { grid-template-columns: 1fr; }
-  }
-</style>
+    @media(max-width:700px){
+      nav{padding:0 24px;} .nav-links{gap:1rem;} .nav-link{font-size:.8rem;padding:5px 10px;}
+      .contact-section{padding:0 24px 60px;}
+      .status-pill-big{flex-wrap:wrap;justify-content:center;border-radius:28px;padding:14px 20px;}
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">DAMX <span>STORE</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="produk.html">Produk</a></li>
-    <li><a href="payment.html">Payment</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
-  </ul>
-</nav>
-
-<div class="page-header">
-  <div class="page-header-content">
-    <div class="page-badge">📡 HUBUNGI KAMI 📡</div>
-    <h1 class="page-title">CONTACT</h1>
-    <p class="page-sub">Kami sedia membantu anda bila-bila masa ⚡</p>
-  </div>
+<div id="loader">
+  <div class="ld-logo">DAMX<em>store</em></div>
+  <div class="ld-track"><div class="ld-fill"></div></div>
+  <div class="ld-caption">Memuatkan...</div>
 </div>
 
-<div class="contact-section">
+<div id="main">
+  <nav>
+    <a href="index.html" class="nav-logo">DAMX<em>store</em></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="produk.html" class="nav-link">Produk</a></li>
+      <li><a href="payment.html" class="nav-link">Payment</a></li>
+      <li><a href="contact.html" class="nav-link active">Contact</a></li>
+    </ul>
+  </nav>
 
-  <div class="status-strip">
-    <div class="status-strip-title">STATUS KAMI</div>
-    <p><span class="status-dot"></span><strong>ONLINE & AKTIF</strong> — Admin sedia membalas mesej anda. Respon biasanya dalam masa <strong>1–24 jam</strong>.</p>
+  <div class="page-header">
+    <div class="header-chip">📬 Hubungi Kami</div>
+    <h1 class="page-title">Contact & <em>Support</em></h1>
+    <p class="page-sub">Team kami sedia membantu anda dengan sebarang pertanyaan pada bila-bila masa.</p>
   </div>
 
-  <!-- DIRECT CONTACT -->
-  <p class="section-label">— <span>DIRECT CONTACT</span> —</p>
-  <div class="contact-grid">
-
-    <a href="https://wa.me/601130538675" class="contact-card" target="_blank">
-      <div class="contact-icon icon-wa">📱</div>
-      <div class="contact-info">
-        <div class="contact-platform">Direct Contact</div>
-        <div class="contact-name">WHATSAPP</div>
-        <div class="contact-handle">+601130538675</div>
-      </div>
-    </a>
-
-    <a href="https://t.me/D4mxor" class="contact-card" target="_blank">
-      <div class="contact-icon icon-tg">✈️</div>
-      <div class="contact-info">
-        <div class="contact-platform">Direct Contact</div>
-        <div class="contact-name">TELEGRAM</div>
-        <div class="contact-handle">@D4mxor</div>
-      </div>
-    </a>
-
-    <a href="https://t.me/D4mxor_bot" class="contact-card" target="_blank">
-      <div class="contact-icon icon-bot">🤖</div>
-      <div class="contact-info">
-        <div class="contact-platform">Automated Bot</div>
-        <div class="contact-name">BOT LIMIT</div>
-        <div class="contact-handle">@D4mxor_bot</div>
-      </div>
-    </a>
-
+  <div class="status-wrap">
+    <div class="status-pill-big">
+      <span class="status-dot"></span>
+      <span class="status-text"><strong>Online</strong> — Respon dalam 1–24 jam</span>
+      <span class="resp-badge">Support 24/7</span>
+    </div>
   </div>
 
-  <hr class="section-divider">
+  <div class="contact-section">
 
-  <!-- CHANNELS -->
-  <p class="section-label">— <span>CHANNEL & KOMUNITI</span> —</p>
-  <div class="contact-grid">
+    <!-- DIRECT CONTACT -->
+    <div class="sec-head">
+      <div class="sec-icon">📬</div>
+      <h2>Direct Contact</h2>
+    </div>
+    <div class="contact-grid">
 
-    <a href="https://t.me/D4mxorxCH" class="contact-card" target="_blank">
-      <div class="contact-icon icon-ch-tg">📢</div>
-      <div class="contact-info">
-        <div class="contact-platform">Telegram Channel</div>
-        <div class="contact-name">CHANNEL TELEGRAM</div>
-        <div class="contact-handle">t.me/D4mxorxCH</div>
-      </div>
-    </a>
+      <a href="https://wa.me/601130538675" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">📱</div>
+        <div class="cc-info">
+          <div class="cc-platform">WhatsApp</div>
+          <div class="cc-name">WhatsApp Direct</div>
+          <div class="cc-handle">+60 11-3053 8675</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
 
-    <a href="https://whatsapp.com/channel/0029Vb5UzbB59PwXJOMjWv1t" class="contact-card" target="_blank">
-      <div class="contact-icon icon-ch-wa">📣</div>
-      <div class="contact-info">
-        <div class="contact-platform">WhatsApp Channel</div>
-        <div class="contact-name">CHANNEL WHATSAPP</div>
-        <div class="contact-handle">DAMX Official WA</div>
-      </div>
-    </a>
+      <a href="https://t.me/D4mxor" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">✈️</div>
+        <div class="cc-info">
+          <div class="cc-platform">Telegram</div>
+          <div class="cc-name">Telegram DM</div>
+          <div class="cc-handle">@D4mxor</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
 
-    <a href="https://t.me/D4mxorfeedback" class="contact-card" target="_blank">
-      <div class="contact-icon icon-fb">💬</div>
-      <div class="contact-info">
-        <div class="contact-platform">Feedback Channel</div>
-        <div class="contact-name">CHANNEL FEEDBACK</div>
-        <div class="contact-handle">t.me/D4mxorfeedback</div>
-      </div>
-    </a>
+      <a href="https://t.me/D4mxor_bot" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">🤖</div>
+        <div class="cc-info">
+          <div class="cc-platform">Automated Bot</div>
+          <div class="cc-name">Bot Limit</div>
+          <div class="cc-handle">@D4mxor_bot</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
 
+    </div>
+
+    <hr class="divider">
+
+    <!-- CHANNELS -->
+    <div class="sec-head">
+      <div class="sec-icon">📢</div>
+      <h2>Channel & Komuniti</h2>
+    </div>
+    <div class="contact-grid">
+
+      <a href="https://t.me/D4mxorxCH" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">📢</div>
+        <div class="cc-info">
+          <div class="cc-platform">Telegram Channel</div>
+          <div class="cc-name">Channel Telegram</div>
+          <div class="cc-handle">t.me/D4mxorxCH</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
+
+      <a href="https://whatsapp.com/channel/0029Vb5UzbB59PwXJOMjWv1t" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">📣</div>
+        <div class="cc-info">
+          <div class="cc-platform">WhatsApp Channel</div>
+          <div class="cc-name">Channel WhatsApp</div>
+          <div class="cc-handle">DAMX Official</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
+
+      <a href="https://t.me/D4mxorfeedback" class="contact-card" target="_blank" rel="noopener">
+        <div class="cc-icon">💬</div>
+        <div class="cc-info">
+          <div class="cc-platform">Feedback</div>
+          <div class="cc-name">Channel Feedback</div>
+          <div class="cc-handle">t.me/D4mxorfeedback</div>
+        </div>
+        <div class="cc-arrow">›</div>
+      </a>
+
+    </div>
   </div>
 
+  <footer>&copy; 2026 <em>DAMX STORE</em> — All rights reserved</footer>
 </div>
 
-<footer>
-  &copy; 2025 <span>DAMX STORE</span> — All Rights Reserved ⚡
-</footer>
-
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('out');
+      setTimeout(() => { document.getElementById('main').classList.add('show'); }, 180);
+    }, 1600);
+  });
+</script>
 </body>
 </html>
